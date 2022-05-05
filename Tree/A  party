@@ -1,0 +1,49 @@
+A company has n employees numbered from 1 to n. Each employee either has no immediate manager or exactly one immediate manager, 
+who is another employee with a different number. An employee A is said to be the superior of another employee B if at least one of the following is true:
+
+Employee A is the immediate manager of employee B
+Employee B has an immediate manager employee C such that employee A is the superior of employee C.
+The company will not have a managerial cycle. That is, there will not exist an employee who is the superior of his/her own immediate manager.
+
+Today the company is going to arrange a party. This involves dividing all n employees into several groups: every employee must belong to exactly one group. Furthermore, within any single group, there must not be two employees A and B such that A is the superior of B.
+
+What is the minimum number of groups that must be formed?
+
+
+solution:
+
+vector<int> adj[200005];
+int parent[200005];
+int col[200005];
+int dis[200005];
+unordered_map<int, vector<int>> mp;
+void dfs(int node, int par) {
+    int src = 0;
+    for (auto var : mp[node]) {
+        if (var != par) {
+            dfs(var, node);
+            src = max(src, 1 + dis[var]);
+        }
+    }
+    dis[node] = src;
+}
+ 
+ 
+void solve() {
+    int n;
+    cin >> n;
+    for (int i = 1; i <= n; i++) {
+        int node;
+        cin >> node;
+        if (node == -1) {
+            mp[0].push_back(i);
+        }
+        else {
+            mp[node].push_back(i);
+        }
+    }
+    dfs(0, -1);
+    cout << dis[0];
+ 
+ 
+}
