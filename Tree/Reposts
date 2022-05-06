@@ -1,0 +1,42 @@
+One day Polycarp published a funny picture in a social network making a poll about the color of his handle.
+Many of his friends started reposting Polycarp's joke to their news feed. Some of them reposted the reposts and so on.
+
+These events are given as a sequence of strings "name1 reposted name2", where name1 is the name of the person who reposted the joke,
+and name2 is the name of the person from whose news feed the joke was reposted. It is guaranteed that for each string "name1 reposted name2" user "name1" didn't have the joke in his feed yet, and "name2" already had it in his feed by the moment of repost. Polycarp was registered as "Polycarp" and initially the joke was only in his feed.
+
+Polycarp measures the popularity of the joke as the length of the largest repost chain. Print the popularity of Polycarp's joke.
+
+
+map<string, vector<string>> mp;
+map<string, bool> vis;
+
+int recur(string node) {
+    if (vis[node]) return 0;
+
+    vis[node] = true;
+    int dist = 0;
+    for (auto var : mp[node]) {
+        dist = max(dist, recur(var));
+    }
+    return dist + 1;
+}
+void solve() {
+
+    int n;
+    cin >> n;
+
+    // cin >> n;
+    string to, r, from;
+
+
+    for (int i = 0; i < n; i++) {
+        cin >> to >> r >> from;
+        transform(to.begin(), to.end(), to.begin(), ::tolower);
+        transform(from.begin(), from.end(), from.begin(), ::tolower);
+        mp[to].push_back(from);
+        mp[from].push_back(to);
+    }
+    cout << recur("polycarp");
+
+
+}
