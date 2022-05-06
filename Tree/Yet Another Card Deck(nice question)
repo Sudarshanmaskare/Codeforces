@@ -1,0 +1,42 @@
+You have a card deck of n cards, numbered from top to bottom, i. e. the top card has index 1 and bottom card — index n. Each card has its color: the i-th card has color ai.
+
+You should process q queries. The j-th query is described by integer tj. For each query you should:
+
+find the highest card in the deck with color tj, i. e. the card with minimum index;
+print the position of the card you found;
+take the card and place it on top of the deck.
+
+
+void solve() {
+
+    int n, q;
+    cin >> n >> q;
+    map<int, int> mp;
+
+    for (int i = 0; i < n; i++) {
+        int temp;
+        cin >> temp;
+        if (mp[temp] == 0) {
+            mp[temp] = i + 1;
+        }
+    }
+
+    while (q--) {
+        int temp;
+        cin >> temp;
+        int cal = mp[temp];
+        cout << cal << " ";
+        mp.erase(temp);
+        for (auto var : mp) {
+            if (var.second < cal) {
+                mp[var.first] = var.second + 1;
+            }
+        }
+        mp[temp] = 1;
+    }
+    cout << endl;
+
+
+
+
+}
