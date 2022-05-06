@@ -1,0 +1,45 @@
+
+
+Consider a rooted tree. A rooted tree has one special vertex called the root. All edges are directed from the root.
+Vertex u is called a child of vertex v and vertex v is called a parent of vertex u if there exists a directed edge from v to u.
+A vertex is called a leaf if it doesn't have children and has a parent.
+
+Let's call a rooted tree a spruce if its every non-leaf vertex has at least 3 leaf children. You are given a rooted tree, check whether it's a spruce.
+
+The definition of a rooted tree can be found here.
+
+
+void solve() {
+
+    int n;
+    cin >> n;
+    unordered_map<int, vector<int>> mp;
+    int j = 2;
+    for (int i = 0; i < n - 1; i++) {
+        int cal;
+        cin >> cal;
+        mp[cal].push_back(j++);
+    }
+
+    bool flag = false;
+    for (int i = 1; i <= n; i++) {
+        if (mp[i].size() != 0) {
+            int cnt = 0;
+            for (auto var : mp[i]) {
+                if (mp[var].size() == 0) {
+                    cnt++;
+                }
+                if (cnt == 3) break;
+            }
+            if (cnt < 3) flag = true;
+            if (flag == true) break;
+        }
+    }
+
+    if (flag) {
+        cout << "No" << "\n";
+    }
+    else {
+        cout << "Yes" << "\n";
+    }
+}
