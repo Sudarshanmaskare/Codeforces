@@ -1,0 +1,51 @@
+
+
+
+
+In order to add a letter, Alice has to press the key of the corresponding digit i times, where i is the position of the letter in the key.
+
+For example, to add the letter 's', Alice has to press '7' four times. Similarly, to add the letter 'k', Alice has to press '5' twice.
+Note that the digits '0' and '1' do not map to any letters, so Alice does not use them.
+However, due to an error in transmission, Bob did not receive Alice's text message but received a string of pressed keys instead.
+
+For example, when Alice sent the message "bob", Bob received the string "2266622".
+Given a string pressedKeys representing the string received by Bob, return the total number of possible text messages Alice could have sent.
+
+Since the answer may be very large, return it modulo 109 + 7.
+
+ 
+
+Example 1:
+
+Input: pressedKeys = "22233"
+Output: 8
+Explanation:
+The possible text messages Alice could have sent are:
+"aaadd", "abdd", "badd", "cdd", "aaae", "abe", "bae", and "ce".
+Since there are 8 possible messages, we return 8.
+
+
+
+class Solution {
+public:
+    int dp[200005];
+    vector<int> keys={0,0,3,3,3,3,3,4,3,4};
+    int mod=1e9+7;
+    int recur(string &press,int index,int n){
+        if(index>=n) return 1;
+        
+        if(dp[index]!=-1) return dp[index];
+        
+        long long count=0;
+        for(int i=0;i<keys[press[index]-'0'] && index+i<n && press[index+i]==press[index];i++){
+            count+=recur(press,index+i+1,n);
+            count%=mod;
+        }
+        return dp[index]=count;
+    }
+    int countTexts(string pressedKeys) {
+        memset(dp,-1,sizeof(dp));
+        int n=pressedKeys.size();
+        return recur(pressedKeys,0,n);
+    }
+};
