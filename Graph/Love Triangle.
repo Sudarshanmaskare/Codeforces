@@ -1,0 +1,49 @@
+//Cyle of 3 (simple)
+
+vector<int> graph[5005];
+bool vis[5005];
+bool dfs[5005];
+bool recur(int node,int &c){
+    vis[node]=true;
+    dfs[node]=true;
+    c++;
+    for(auto var:graph[node]){
+        if(!vis[var] && recur(var,c)) return true;
+        else if(vis[var] && dfs[var]){
+            return true;
+        }
+    }
+    dfs[node]=false;
+    c--;
+    return false;
+}
+void solve() {
+    int node;
+
+    cin>>node;
+    for(int i=1;i<=node;i++){
+        int u;
+        cin>>u;
+        graph[u].push_back(i);
+    }
+
+    bool flag=false;
+
+    for(int i=1;i<=node;i++){
+        int c=0;
+        if(!vis[i] && recur(i,c)){
+            if(c==3){
+            flag=true;
+            }
+        }
+    }
+
+    if(flag){
+        cout<<"YES"<<"\n";
+    }
+    else{
+        cout<<"NO"<<"\n";
+    }
+
+
+}
